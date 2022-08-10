@@ -1,0 +1,39 @@
+"".add STEXT nosplit size=60 args=0x18 locals=0x10
+        0x0000 00000 (main.go:3)        TEXT    "".add(SB), NOSPLIT, $16-24
+        0x0000 00000 (main.go:3)        SUBQ    $16, SP  ;;生成add栈空间
+        0x0004 00004 (main.go:3)        MOVQ    BP, 8(SP)
+        0x0009 00009 (main.go:3)        LEAQ    8(SP), BP
+    ;; ...omitted FUNCDATA stuff...
+        0x000e 00014 (main.go:3)        MOVQ    $0, "".~r2+40(SP) ;;初始化返回值
+        0x0017 00023 (main.go:4)        MOVQ    $0, "".sum(SP) ;;局部变量sum赋为0
+        0x001f 00031 (main.go:5)        MOVQ    "".a+24(SP), AX  ;;取参数a
+        0x0024 00036 (main.go:5)        ADDQ    "".b+32(SP), AX ;;等价于AX=a+b
+        0x0029 00041 (main.go:5)        MOVQ    AX, "".sum(SP)  ;;赋值局部变量sum
+        0x002d 00045 (main.go:6)        MOVQ    AX, "".~r2+40(SP) ;;设置返回值
+        0x0032 00050 (main.go:6)        MOVQ    8(SP), BP
+        0x0037 00055 (main.go:6)        ADDQ    $16, SP ;;清除add栈空间
+        0x003b 00059 (main.go:6)        RET
+    ......
+
+"".main STEXT size=107 args=0x0 locals=0x28
+        0x0000 00000 (main.go:9)        TEXT    "".main(SB), $40-0
+    ......
+        0x000f 00015 (main.go:9)        SUBQ    $40, SP ;; 生成main栈空间
+        0x0013 00019 (main.go:9)        MOVQ    BP, 32(SP)
+        0x0018 00024 (main.go:9)        LEAQ    32(SP), BP
+    ;; ...omitted FUNCDATA stuff...
+        0x001d 00029 (main.go:10)       MOVQ    $1, (SP) ;;add入参：1
+        0x0025 00037 (main.go:10)       MOVQ    $2, 8(SP) ;;add入参：2
+        0x002e 00046 (main.go:10)       CALL    "".add(SB) ;;调用add函数
+        0x0033 00051 (main.go:10)       MOVQ    16(SP), AX
+        0x0038 00056 (main.go:10)       MOVQ    AX, ""..autotmp_0+24(SP)
+        0x003d 00061 (main.go:10)       CALL    runtime.printlock(SB)
+        0x0042 00066 (main.go:10)       MOVQ    ""..autotmp_0+24(SP), AX
+        0x0047 00071 (main.go:10)       MOVQ    AX, (SP)
+        0x004b 00075 (main.go:10)       CALL    runtime.printint(SB)
+        0x0050 00080 (main.go:10)       CALL    runtime.printnl(SB)
+        0x0055 00085 (main.go:10)       CALL    runtime.printunlock(SB)
+        0x005a 00090 (main.go:11)       MOVQ    32(SP), BP
+        0x005f 00095 (main.go:11)       ADDQ    $40, SP ;;清除main栈空间
+        0x0063 00099 (main.go:11)       RET
+    ......
